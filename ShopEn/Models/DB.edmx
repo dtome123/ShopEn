@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QLBHDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="COMBO">
+          <Key>
+            <PropertyRef Name="MACB" />
+          </Key>
+          <Property Name="MACB" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENCB" Type="nvarchar" MaxLength="50" />
+          <Property Name="GIA" Type="money" />
+          <Property Name="IMAGE" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="CT_CB_SP">
+          <Key>
+            <PropertyRef Name="MACB" />
+            <PropertyRef Name="MASP" />
+          </Key>
+          <Property Name="MACB" Type="int" Nullable="false" />
+          <Property Name="MASP" Type="int" Nullable="false" />
+          <Property Name="SOLUONG" Type="int" />
+        </EntityType>
+        <EntityType Name="CTHD">
+          <Key>
+            <PropertyRef Name="MACT" />
+          </Key>
+          <Property Name="MACT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MAHD" Type="int" />
+          <Property Name="MASP" Type="int" />
+          <Property Name="MACB" Type="int" />
+          <Property Name="GIA" Type="money" />
+        </EntityType>
+        <EntityType Name="HOADON">
+          <Key>
+            <PropertyRef Name="MAHD" />
+          </Key>
+          <Property Name="MAHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NGAYLAPHD" Type="datetime" />
+          <Property Name="MAKH" Type="int" />
+          <Property Name="MATT" Type="int" />
+        </EntityType>
+        <EntityType Name="KHACHHANG">
+          <Key>
+            <PropertyRef Name="MAKH" />
+          </Key>
+          <Property Name="MAKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENKH" Type="nvarchar" MaxLength="50" />
+          <Property Name="DIACHI" Type="nvarchar" MaxLength="50" />
+          <Property Name="SDT" Type="char" MaxLength="10" />
+          <Property Name="NGAYSINH" Type="date" />
+          <Property Name="EMAIL" Type="char" MaxLength="50" />
+          <Property Name="PASSWORD" Type="char" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LOAI_SP">
+          <Key>
+            <PropertyRef Name="LOAI" />
+          </Key>
+          <Property Name="LOAI" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="TEN" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MANV" />
+          </Key>
+          <Property Name="MANV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENKH" Type="nvarchar" MaxLength="50" />
+          <Property Name="DIACHI" Type="nvarchar" MaxLength="50" />
+          <Property Name="SDT" Type="char" MaxLength="10" />
+          <Property Name="NGAYSINH" Type="date" />
+          <Property Name="MAVT" Type="char" MaxLength="4" />
+          <Property Name="EMAIL" Type="char" MaxLength="50" />
+          <Property Name="PASSWORD" Type="char" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SANPHAM">
+          <Key>
+            <PropertyRef Name="MASP" />
+          </Key>
+          <Property Name="MASP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TENSP" Type="nvarchar" MaxLength="50" />
+          <Property Name="LOAI" Type="char" MaxLength="6" />
+          <Property Name="GIA" Type="money" />
+          <Property Name="SOLUONG" Type="int" />
+          <Property Name="IMAGE" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TRANGTHAI_HD">
+          <Key>
+            <PropertyRef Name="MATT" />
+          </Key>
+          <Property Name="MATT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEN" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="VITRI">
+          <Key>
+            <PropertyRef Name="MAVT" />
+          </Key>
+          <Property Name="MAVT" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="TEN" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <Association Name="FK_CB">
+          <End Role="COMBO" Type="Self.COMBO" Multiplicity="1" />
+          <End Role="CT_CB_SP" Type="Self.CT_CB_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MACB" />
+            </Principal>
+            <Dependent Role="CT_CB_SP">
+              <PropertyRef Name="MACB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTHD">
+          <End Role="HOADON" Type="Self.HOADON" Multiplicity="0..1" />
+          <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOADON">
+              <PropertyRef Name="MAHD" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MAHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HD_CB">
+          <End Role="COMBO" Type="Self.COMBO" Multiplicity="0..1" />
+          <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MACB" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MACB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HD_SP">
+          <End Role="SANPHAM" Type="Self.SANPHAM" Multiplicity="0..1" />
+          <End Role="CTHD" Type="Self.CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KH">
+          <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="0..1" />
+          <End Role="HOADON" Type="Self.HOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHACHHANG">
+              <PropertyRef Name="MAKH" />
+            </Principal>
+            <Dependent Role="HOADON">
+              <PropertyRef Name="MAKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LOAI">
+          <End Role="LOAI_SP" Type="Self.LOAI_SP" Multiplicity="0..1" />
+          <End Role="SANPHAM" Type="Self.SANPHAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOAI_SP">
+              <PropertyRef Name="LOAI" />
+            </Principal>
+            <Dependent Role="SANPHAM">
+              <PropertyRef Name="LOAI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP">
+          <End Role="SANPHAM" Type="Self.SANPHAM" Multiplicity="1" />
+          <End Role="CT_CB_SP" Type="Self.CT_CB_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="CT_CB_SP">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TT">
+          <End Role="TRANGTHAI_HD" Type="Self.TRANGTHAI_HD" Multiplicity="0..1" />
+          <End Role="HOADON" Type="Self.HOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANGTHAI_HD">
+              <PropertyRef Name="MATT" />
+            </Principal>
+            <Dependent Role="HOADON">
+              <PropertyRef Name="MATT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VT">
+          <End Role="VITRI" Type="Self.VITRI" Multiplicity="0..1" />
+          <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VITRI">
+              <PropertyRef Name="MAVT" />
+            </Principal>
+            <Dependent Role="NHANVIEN">
+              <PropertyRef Name="MAVT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLBHDTModelStoreContainer">
+          <EntitySet Name="COMBO" EntityType="Self.COMBO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_CB_SP" EntityType="Self.CT_CB_SP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTHD" EntityType="Self.CTHD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HOADON" EntityType="Self.HOADON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOAI_SP" EntityType="Self.LOAI_SP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SANPHAM" EntityType="Self.SANPHAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRANGTHAI_HD" EntityType="Self.TRANGTHAI_HD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VITRI" EntityType="Self.VITRI" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CB" Association="Self.FK_CB">
+            <End Role="COMBO" EntitySet="COMBO" />
+            <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTHD" Association="Self.FK_CTHD">
+            <End Role="HOADON" EntitySet="HOADON" />
+            <End Role="CTHD" EntitySet="CTHD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HD_CB" Association="Self.FK_HD_CB">
+            <End Role="COMBO" EntitySet="COMBO" />
+            <End Role="CTHD" EntitySet="CTHD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HD_SP" Association="Self.FK_HD_SP">
+            <End Role="SANPHAM" EntitySet="SANPHAM" />
+            <End Role="CTHD" EntitySet="CTHD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KH" Association="Self.FK_KH">
+            <End Role="KHACHHANG" EntitySet="KHACHHANG" />
+            <End Role="HOADON" EntitySet="HOADON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LOAI" Association="Self.FK_LOAI">
+            <End Role="LOAI_SP" EntitySet="LOAI_SP" />
+            <End Role="SANPHAM" EntitySet="SANPHAM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP" Association="Self.FK_SP">
+            <End Role="SANPHAM" EntitySet="SANPHAM" />
+            <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TT" Association="Self.FK_TT">
+            <End Role="TRANGTHAI_HD" EntitySet="TRANGTHAI_HD" />
+            <End Role="HOADON" EntitySet="HOADON" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VT" Association="Self.FK_VT">
+            <End Role="VITRI" EntitySet="VITRI" />
+            <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QLBHDTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QLBHDTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="COMBOes" EntityType="QLBHDTModel.COMBO" />
+          <EntitySet Name="CT_CB_SP" EntityType="QLBHDTModel.CT_CB_SP" />
+          <EntitySet Name="CTHDs" EntityType="QLBHDTModel.CTHD" />
+          <EntitySet Name="HOADONs" EntityType="QLBHDTModel.HOADON" />
+          <EntitySet Name="KHACHHANGs" EntityType="QLBHDTModel.KHACHHANG" />
+          <EntitySet Name="LOAI_SP" EntityType="QLBHDTModel.LOAI_SP" />
+          <EntitySet Name="NHANVIENs" EntityType="QLBHDTModel.NHANVIEN" />
+          <EntitySet Name="SANPHAMs" EntityType="QLBHDTModel.SANPHAM" />
+          <EntitySet Name="TRANGTHAI_HD" EntityType="QLBHDTModel.TRANGTHAI_HD" />
+          <EntitySet Name="VITRIs" EntityType="QLBHDTModel.VITRI" />
+          <AssociationSet Name="FK_CB" Association="QLBHDTModel.FK_CB">
+            <End Role="COMBO" EntitySet="COMBOes" />
+            <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HD_CB" Association="QLBHDTModel.FK_HD_CB">
+            <End Role="COMBO" EntitySet="COMBOes" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SP" Association="QLBHDTModel.FK_SP">
+            <End Role="SANPHAM" EntitySet="SANPHAMs" />
+            <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTHD" Association="QLBHDTModel.FK_CTHD">
+            <End Role="HOADON" EntitySet="HOADONs" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HD_SP" Association="QLBHDTModel.FK_HD_SP">
+            <End Role="SANPHAM" EntitySet="SANPHAMs" />
+            <End Role="CTHD" EntitySet="CTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KH" Association="QLBHDTModel.FK_KH">
+            <End Role="KHACHHANG" EntitySet="KHACHHANGs" />
+            <End Role="HOADON" EntitySet="HOADONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TT" Association="QLBHDTModel.FK_TT">
+            <End Role="TRANGTHAI_HD" EntitySet="TRANGTHAI_HD" />
+            <End Role="HOADON" EntitySet="HOADONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LOAI" Association="QLBHDTModel.FK_LOAI">
+            <End Role="LOAI_SP" EntitySet="LOAI_SP" />
+            <End Role="SANPHAM" EntitySet="SANPHAMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VT" Association="QLBHDTModel.FK_VT">
+            <End Role="VITRI" EntitySet="VITRIs" />
+            <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="COMBO">
+          <Key>
+            <PropertyRef Name="MACB" />
+          </Key>
+          <Property Name="MACB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENCB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IMAGE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CT_CB_SP" Relationship="QLBHDTModel.FK_CB" FromRole="COMBO" ToRole="CT_CB_SP" />
+          <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_HD_CB" FromRole="COMBO" ToRole="CTHD" />
+        </EntityType>
+        <EntityType Name="CT_CB_SP">
+          <Key>
+            <PropertyRef Name="MACB" />
+            <PropertyRef Name="MASP" />
+          </Key>
+          <Property Name="MACB" Type="Int32" Nullable="false" />
+          <Property Name="MASP" Type="Int32" Nullable="false" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <NavigationProperty Name="COMBO" Relationship="QLBHDTModel.FK_CB" FromRole="CT_CB_SP" ToRole="COMBO" />
+          <NavigationProperty Name="SANPHAM" Relationship="QLBHDTModel.FK_SP" FromRole="CT_CB_SP" ToRole="SANPHAM" />
+        </EntityType>
+        <EntityType Name="CTHD">
+          <Key>
+            <PropertyRef Name="MACT" />
+          </Key>
+          <Property Name="MACT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAHD" Type="Int32" />
+          <Property Name="MASP" Type="Int32" />
+          <Property Name="MACB" Type="Int32" />
+          <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="COMBO" Relationship="QLBHDTModel.FK_HD_CB" FromRole="CTHD" ToRole="COMBO" />
+          <NavigationProperty Name="HOADON" Relationship="QLBHDTModel.FK_CTHD" FromRole="CTHD" ToRole="HOADON" />
+          <NavigationProperty Name="SANPHAM" Relationship="QLBHDTModel.FK_HD_SP" FromRole="CTHD" ToRole="SANPHAM" />
+        </EntityType>
+        <EntityType Name="HOADON">
+          <Key>
+            <PropertyRef Name="MAHD" />
+          </Key>
+          <Property Name="MAHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NGAYLAPHD" Type="DateTime" Precision="3" />
+          <Property Name="MAKH" Type="Int32" />
+          <Property Name="MATT" Type="Int32" />
+          <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_CTHD" FromRole="HOADON" ToRole="CTHD" />
+          <NavigationProperty Name="KHACHHANG" Relationship="QLBHDTModel.FK_KH" FromRole="HOADON" ToRole="KHACHHANG" />
+          <NavigationProperty Name="TRANGTHAI_HD" Relationship="QLBHDTModel.FK_TT" FromRole="HOADON" ToRole="TRANGTHAI_HD" />
+        </EntityType>
+        <EntityType Name="KHACHHANG">
+          <Key>
+            <PropertyRef Name="MAKH" />
+          </Key>
+          <Property Name="MAKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DIACHI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="NGAYSINH" Type="DateTime" Precision="0" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="HOADONs" Relationship="QLBHDTModel.FK_KH" FromRole="KHACHHANG" ToRole="HOADON" />
+        </EntityType>
+        <EntityType Name="LOAI_SP">
+          <Key>
+            <PropertyRef Name="LOAI" />
+          </Key>
+          <Property Name="LOAI" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="TEN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SANPHAMs" Relationship="QLBHDTModel.FK_LOAI" FromRole="LOAI_SP" ToRole="SANPHAM" />
+        </EntityType>
+        <EntityType Name="NHANVIEN">
+          <Key>
+            <PropertyRef Name="MANV" />
+          </Key>
+          <Property Name="MANV" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DIACHI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SDT" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="NGAYSINH" Type="DateTime" Precision="0" />
+          <Property Name="MAVT" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="VITRI" Relationship="QLBHDTModel.FK_VT" FromRole="NHANVIEN" ToRole="VITRI" />
+        </EntityType>
+        <EntityType Name="SANPHAM">
+          <Key>
+            <PropertyRef Name="MASP" />
+          </Key>
+          <Property Name="MASP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TENSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LOAI" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <Property Name="IMAGE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CT_CB_SP" Relationship="QLBHDTModel.FK_SP" FromRole="SANPHAM" ToRole="CT_CB_SP" />
+          <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_HD_SP" FromRole="SANPHAM" ToRole="CTHD" />
+          <NavigationProperty Name="LOAI_SP" Relationship="QLBHDTModel.FK_LOAI" FromRole="SANPHAM" ToRole="LOAI_SP" />
+        </EntityType>
+        <EntityType Name="TRANGTHAI_HD">
+          <Key>
+            <PropertyRef Name="MATT" />
+          </Key>
+          <Property Name="MATT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HOADONs" Relationship="QLBHDTModel.FK_TT" FromRole="TRANGTHAI_HD" ToRole="HOADON" />
+        </EntityType>
+        <EntityType Name="VITRI">
+          <Key>
+            <PropertyRef Name="MAVT" />
+          </Key>
+          <Property Name="MAVT" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="TEN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NHANVIENs" Relationship="QLBHDTModel.FK_VT" FromRole="VITRI" ToRole="NHANVIEN" />
+        </EntityType>
+        <Association Name="FK_CB">
+          <End Type="QLBHDTModel.COMBO" Role="COMBO" Multiplicity="1" />
+          <End Type="QLBHDTModel.CT_CB_SP" Role="CT_CB_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MACB" />
+            </Principal>
+            <Dependent Role="CT_CB_SP">
+              <PropertyRef Name="MACB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HD_CB">
+          <End Type="QLBHDTModel.COMBO" Role="COMBO" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMBO">
+              <PropertyRef Name="MACB" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MACB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SP">
+          <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="1" />
+          <End Type="QLBHDTModel.CT_CB_SP" Role="CT_CB_SP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="CT_CB_SP">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTHD">
+          <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HOADON">
+              <PropertyRef Name="MAHD" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MAHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HD_SP">
+          <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="CTHD">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KH">
+          <End Type="QLBHDTModel.KHACHHANG" Role="KHACHHANG" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KHACHHANG">
+              <PropertyRef Name="MAKH" />
+            </Principal>
+            <Dependent Role="HOADON">
+              <PropertyRef Name="MAKH" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TT">
+          <End Type="QLBHDTModel.TRANGTHAI_HD" Role="TRANGTHAI_HD" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRANGTHAI_HD">
+              <PropertyRef Name="MATT" />
+            </Principal>
+            <Dependent Role="HOADON">
+              <PropertyRef Name="MATT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LOAI">
+          <End Type="QLBHDTModel.LOAI_SP" Role="LOAI_SP" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LOAI_SP">
+              <PropertyRef Name="LOAI" />
+            </Principal>
+            <Dependent Role="SANPHAM">
+              <PropertyRef Name="LOAI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VT">
+          <End Type="QLBHDTModel.VITRI" Role="VITRI" Multiplicity="0..1" />
+          <End Type="QLBHDTModel.NHANVIEN" Role="NHANVIEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VITRI">
+              <PropertyRef Name="MAVT" />
+            </Principal>
+            <Dependent Role="NHANVIEN">
+              <PropertyRef Name="MAVT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QLBHDTModelStoreContainer" CdmEntityContainer="QLBHDTEntities">
+          <EntitySetMapping Name="COMBOes">
+            <EntityTypeMapping TypeName="QLBHDTModel.COMBO">
+              <MappingFragment StoreEntitySet="COMBO">
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="GIA" ColumnName="GIA" />
+                <ScalarProperty Name="TENCB" ColumnName="TENCB" />
+                <ScalarProperty Name="MACB" ColumnName="MACB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CT_CB_SP">
+            <EntityTypeMapping TypeName="QLBHDTModel.CT_CB_SP">
+              <MappingFragment StoreEntitySet="CT_CB_SP">
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="MACB" ColumnName="MACB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTHDs">
+            <EntityTypeMapping TypeName="QLBHDTModel.CTHD">
+              <MappingFragment StoreEntitySet="CTHD">
+                <ScalarProperty Name="GIA" ColumnName="GIA" />
+                <ScalarProperty Name="MACB" ColumnName="MACB" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="MAHD" ColumnName="MAHD" />
+                <ScalarProperty Name="MACT" ColumnName="MACT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HOADONs">
+            <EntityTypeMapping TypeName="QLBHDTModel.HOADON">
+              <MappingFragment StoreEntitySet="HOADON">
+                <ScalarProperty Name="MATT" ColumnName="MATT" />
+                <ScalarProperty Name="MAKH" ColumnName="MAKH" />
+                <ScalarProperty Name="NGAYLAPHD" ColumnName="NGAYLAPHD" />
+                <ScalarProperty Name="MAHD" ColumnName="MAHD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KHACHHANGs">
+            <EntityTypeMapping TypeName="QLBHDTModel.KHACHHANG">
+              <MappingFragment StoreEntitySet="KHACHHANG">
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="NGAYSINH" ColumnName="NGAYSINH" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+                <ScalarProperty Name="TENKH" ColumnName="TENKH" />
+                <ScalarProperty Name="MAKH" ColumnName="MAKH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOAI_SP">
+            <EntityTypeMapping TypeName="QLBHDTModel.LOAI_SP">
+              <MappingFragment StoreEntitySet="LOAI_SP">
+                <ScalarProperty Name="TEN" ColumnName="TEN" />
+                <ScalarProperty Name="LOAI" ColumnName="LOAI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NHANVIENs">
+            <EntityTypeMapping TypeName="QLBHDTModel.NHANVIEN">
+              <MappingFragment StoreEntitySet="NHANVIEN">
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="MAVT" ColumnName="MAVT" />
+                <ScalarProperty Name="NGAYSINH" ColumnName="NGAYSINH" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+                <ScalarProperty Name="TENKH" ColumnName="TENKH" />
+                <ScalarProperty Name="MANV" ColumnName="MANV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SANPHAMs">
+            <EntityTypeMapping TypeName="QLBHDTModel.SANPHAM">
+              <MappingFragment StoreEntitySet="SANPHAM">
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="GIA" ColumnName="GIA" />
+                <ScalarProperty Name="LOAI" ColumnName="LOAI" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRANGTHAI_HD">
+            <EntityTypeMapping TypeName="QLBHDTModel.TRANGTHAI_HD">
+              <MappingFragment StoreEntitySet="TRANGTHAI_HD">
+                <ScalarProperty Name="TEN" ColumnName="TEN" />
+                <ScalarProperty Name="MATT" ColumnName="MATT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VITRIs">
+            <EntityTypeMapping TypeName="QLBHDTModel.VITRI">
+              <MappingFragment StoreEntitySet="VITRI">
+                <ScalarProperty Name="TEN" ColumnName="TEN" />
+                <ScalarProperty Name="MAVT" ColumnName="MAVT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

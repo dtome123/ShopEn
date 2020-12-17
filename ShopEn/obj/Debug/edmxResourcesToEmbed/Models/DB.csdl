@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLBHDTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="QLBHDTEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="COMBOes" EntityType="QLBHDTModel.COMBO" />
+    <EntitySet Name="CT_CB_SP" EntityType="QLBHDTModel.CT_CB_SP" />
+    <EntitySet Name="CTHDs" EntityType="QLBHDTModel.CTHD" />
+    <EntitySet Name="HOADONs" EntityType="QLBHDTModel.HOADON" />
+    <EntitySet Name="KHACHHANGs" EntityType="QLBHDTModel.KHACHHANG" />
+    <EntitySet Name="LOAI_SP" EntityType="QLBHDTModel.LOAI_SP" />
+    <EntitySet Name="NHANVIENs" EntityType="QLBHDTModel.NHANVIEN" />
+    <EntitySet Name="SANPHAMs" EntityType="QLBHDTModel.SANPHAM" />
+    <EntitySet Name="TRANGTHAI_HD" EntityType="QLBHDTModel.TRANGTHAI_HD" />
+    <EntitySet Name="VITRIs" EntityType="QLBHDTModel.VITRI" />
+    <AssociationSet Name="FK_CB" Association="QLBHDTModel.FK_CB">
+      <End Role="COMBO" EntitySet="COMBOes" />
+      <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HD_CB" Association="QLBHDTModel.FK_HD_CB">
+      <End Role="COMBO" EntitySet="COMBOes" />
+      <End Role="CTHD" EntitySet="CTHDs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SP" Association="QLBHDTModel.FK_SP">
+      <End Role="SANPHAM" EntitySet="SANPHAMs" />
+      <End Role="CT_CB_SP" EntitySet="CT_CB_SP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTHD" Association="QLBHDTModel.FK_CTHD">
+      <End Role="HOADON" EntitySet="HOADONs" />
+      <End Role="CTHD" EntitySet="CTHDs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HD_SP" Association="QLBHDTModel.FK_HD_SP">
+      <End Role="SANPHAM" EntitySet="SANPHAMs" />
+      <End Role="CTHD" EntitySet="CTHDs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_KH" Association="QLBHDTModel.FK_KH">
+      <End Role="KHACHHANG" EntitySet="KHACHHANGs" />
+      <End Role="HOADON" EntitySet="HOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TT" Association="QLBHDTModel.FK_TT">
+      <End Role="TRANGTHAI_HD" EntitySet="TRANGTHAI_HD" />
+      <End Role="HOADON" EntitySet="HOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LOAI" Association="QLBHDTModel.FK_LOAI">
+      <End Role="LOAI_SP" EntitySet="LOAI_SP" />
+      <End Role="SANPHAM" EntitySet="SANPHAMs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VT" Association="QLBHDTModel.FK_VT">
+      <End Role="VITRI" EntitySet="VITRIs" />
+      <End Role="NHANVIEN" EntitySet="NHANVIENs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="COMBO">
+    <Key>
+      <PropertyRef Name="MACB" />
+    </Key>
+    <Property Name="MACB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TENCB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="IMAGE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CT_CB_SP" Relationship="QLBHDTModel.FK_CB" FromRole="COMBO" ToRole="CT_CB_SP" />
+    <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_HD_CB" FromRole="COMBO" ToRole="CTHD" />
+  </EntityType>
+  <EntityType Name="CT_CB_SP">
+    <Key>
+      <PropertyRef Name="MACB" />
+      <PropertyRef Name="MASP" />
+    </Key>
+    <Property Name="MACB" Type="Int32" Nullable="false" />
+    <Property Name="MASP" Type="Int32" Nullable="false" />
+    <Property Name="SOLUONG" Type="Int32" />
+    <NavigationProperty Name="COMBO" Relationship="QLBHDTModel.FK_CB" FromRole="CT_CB_SP" ToRole="COMBO" />
+    <NavigationProperty Name="SANPHAM" Relationship="QLBHDTModel.FK_SP" FromRole="CT_CB_SP" ToRole="SANPHAM" />
+  </EntityType>
+  <EntityType Name="CTHD">
+    <Key>
+      <PropertyRef Name="MACT" />
+    </Key>
+    <Property Name="MACT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MAHD" Type="Int32" />
+    <Property Name="MASP" Type="Int32" />
+    <Property Name="MACB" Type="Int32" />
+    <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="COMBO" Relationship="QLBHDTModel.FK_HD_CB" FromRole="CTHD" ToRole="COMBO" />
+    <NavigationProperty Name="HOADON" Relationship="QLBHDTModel.FK_CTHD" FromRole="CTHD" ToRole="HOADON" />
+    <NavigationProperty Name="SANPHAM" Relationship="QLBHDTModel.FK_HD_SP" FromRole="CTHD" ToRole="SANPHAM" />
+  </EntityType>
+  <EntityType Name="HOADON">
+    <Key>
+      <PropertyRef Name="MAHD" />
+    </Key>
+    <Property Name="MAHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NGAYLAPHD" Type="DateTime" Precision="3" />
+    <Property Name="MAKH" Type="Int32" />
+    <Property Name="MATT" Type="Int32" />
+    <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_CTHD" FromRole="HOADON" ToRole="CTHD" />
+    <NavigationProperty Name="KHACHHANG" Relationship="QLBHDTModel.FK_KH" FromRole="HOADON" ToRole="KHACHHANG" />
+    <NavigationProperty Name="TRANGTHAI_HD" Relationship="QLBHDTModel.FK_TT" FromRole="HOADON" ToRole="TRANGTHAI_HD" />
+  </EntityType>
+  <EntityType Name="KHACHHANG">
+    <Key>
+      <PropertyRef Name="MAKH" />
+    </Key>
+    <Property Name="MAKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TENKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DIACHI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SDT" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="NGAYSINH" Type="DateTime" Precision="0" />
+    <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="HOADONs" Relationship="QLBHDTModel.FK_KH" FromRole="KHACHHANG" ToRole="HOADON" />
+  </EntityType>
+  <EntityType Name="LOAI_SP">
+    <Key>
+      <PropertyRef Name="LOAI" />
+    </Key>
+    <Property Name="LOAI" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="TEN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SANPHAMs" Relationship="QLBHDTModel.FK_LOAI" FromRole="LOAI_SP" ToRole="SANPHAM" />
+  </EntityType>
+  <EntityType Name="NHANVIEN">
+    <Key>
+      <PropertyRef Name="MANV" />
+    </Key>
+    <Property Name="MANV" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TENKH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DIACHI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SDT" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="NGAYSINH" Type="DateTime" Precision="0" />
+    <Property Name="MAVT" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="VITRI" Relationship="QLBHDTModel.FK_VT" FromRole="NHANVIEN" ToRole="VITRI" />
+  </EntityType>
+  <EntityType Name="SANPHAM">
+    <Key>
+      <PropertyRef Name="MASP" />
+    </Key>
+    <Property Name="MASP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TENSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LOAI" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="SOLUONG" Type="Int32" />
+    <Property Name="IMAGE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CT_CB_SP" Relationship="QLBHDTModel.FK_SP" FromRole="SANPHAM" ToRole="CT_CB_SP" />
+    <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_HD_SP" FromRole="SANPHAM" ToRole="CTHD" />
+    <NavigationProperty Name="LOAI_SP" Relationship="QLBHDTModel.FK_LOAI" FromRole="SANPHAM" ToRole="LOAI_SP" />
+  </EntityType>
+  <EntityType Name="TRANGTHAI_HD">
+    <Key>
+      <PropertyRef Name="MATT" />
+    </Key>
+    <Property Name="MATT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TEN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HOADONs" Relationship="QLBHDTModel.FK_TT" FromRole="TRANGTHAI_HD" ToRole="HOADON" />
+  </EntityType>
+  <EntityType Name="VITRI">
+    <Key>
+      <PropertyRef Name="MAVT" />
+    </Key>
+    <Property Name="MAVT" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="TEN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="NHANVIENs" Relationship="QLBHDTModel.FK_VT" FromRole="VITRI" ToRole="NHANVIEN" />
+  </EntityType>
+  <Association Name="FK_CB">
+    <End Type="QLBHDTModel.COMBO" Role="COMBO" Multiplicity="1" />
+    <End Type="QLBHDTModel.CT_CB_SP" Role="CT_CB_SP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COMBO">
+        <PropertyRef Name="MACB" />
+      </Principal>
+      <Dependent Role="CT_CB_SP">
+        <PropertyRef Name="MACB" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HD_CB">
+    <End Type="QLBHDTModel.COMBO" Role="COMBO" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COMBO">
+        <PropertyRef Name="MACB" />
+      </Principal>
+      <Dependent Role="CTHD">
+        <PropertyRef Name="MACB" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SP">
+    <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="1" />
+    <End Type="QLBHDTModel.CT_CB_SP" Role="CT_CB_SP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SANPHAM">
+        <PropertyRef Name="MASP" />
+      </Principal>
+      <Dependent Role="CT_CB_SP">
+        <PropertyRef Name="MASP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTHD">
+    <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HOADON">
+        <PropertyRef Name="MAHD" />
+      </Principal>
+      <Dependent Role="CTHD">
+        <PropertyRef Name="MAHD" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HD_SP">
+    <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.CTHD" Role="CTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SANPHAM">
+        <PropertyRef Name="MASP" />
+      </Principal>
+      <Dependent Role="CTHD">
+        <PropertyRef Name="MASP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_KH">
+    <End Type="QLBHDTModel.KHACHHANG" Role="KHACHHANG" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KHACHHANG">
+        <PropertyRef Name="MAKH" />
+      </Principal>
+      <Dependent Role="HOADON">
+        <PropertyRef Name="MAKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TT">
+    <End Type="QLBHDTModel.TRANGTHAI_HD" Role="TRANGTHAI_HD" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.HOADON" Role="HOADON" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TRANGTHAI_HD">
+        <PropertyRef Name="MATT" />
+      </Principal>
+      <Dependent Role="HOADON">
+        <PropertyRef Name="MATT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LOAI">
+    <End Type="QLBHDTModel.LOAI_SP" Role="LOAI_SP" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.SANPHAM" Role="SANPHAM" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LOAI_SP">
+        <PropertyRef Name="LOAI" />
+      </Principal>
+      <Dependent Role="SANPHAM">
+        <PropertyRef Name="LOAI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VT">
+    <End Type="QLBHDTModel.VITRI" Role="VITRI" Multiplicity="0..1" />
+    <End Type="QLBHDTModel.NHANVIEN" Role="NHANVIEN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VITRI">
+        <PropertyRef Name="MAVT" />
+      </Principal>
+      <Dependent Role="NHANVIEN">
+        <PropertyRef Name="MAVT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
