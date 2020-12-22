@@ -10,6 +10,7 @@ namespace ShopEn.Models
     {
         public int quantity { get; set; }
         public TypeItem type { get; set; }
+        public Double gia { get; set; } 
     }
     public class ItemSP : Item
     {

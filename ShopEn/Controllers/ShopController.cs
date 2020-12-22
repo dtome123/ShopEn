@@ -12,16 +12,12 @@ namespace ShopEn.Controllers
         // GET: Shop
         QLBHDTEntities db = new QLBHDTEntities();
         private int number = 12;
-        public ActionResult Index()
-        {
-            List<SANPHAM> sanPhams = db.SANPHAMs.Take(number).ToList();
-            return View(sanPhams);
-        }
         [HttpGet]
         public ActionResult Index(int id)
         {
             int d =db.SANPHAMs.ToList().Count;
             List<SANPHAM> sanPhams = db.SANPHAMs.OrderBy(c=>c.MASP).Skip(id*number).Take(number).ToList();
+            ViewBag.Page = Math.Ceiling(d / number*1.0);
             return View(sanPhams);
         }
 

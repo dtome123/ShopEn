@@ -1,87 +1,86 @@
-﻿
+﻿@using ShopEn.Models;
+@using ShopEn.Code;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (Session["cart"] != null)
+{
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
 
-<div class="container mb-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"> </th>
-                            <th scope="col">Product</th>
-                            <th scope="col">Available</th>
-                            <th scope="col" class="text-center">Quantity</th>
-                            <th scope="col" class="text-right">Price</th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Dada</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">124,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Toto</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">33,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Titi</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">70,00 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Sub-Total</td>
-                            <td class="text-right">255,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Shipping</td>
-                            <td class="text-right">6,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>346,90 €</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col mb-2">
-            <div class="row">
-                <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light">Continue Shopping</button>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col"> </th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col" class="text-center">Số lượng</th>
+                                <th scope="col" class="text-right">Tổng</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ((List<Item>)Session["cart"]))
+                            {
+                                if (item.type == TypeItem.SanPham)
+                                {
+                                    <tr>
+                                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                        <td>
+                                            <input value="@item.type" id="type-@(((ItemSP)item).sanpham.MASP)" style="display:none" />
+
+                                            @(((ItemSP)item).sanpham.TENSP)
+                                        </td>
+                                        <td>@(((ItemSP)item).sanpham.GIA)</td>
+                                        <td>
+                                            <input class="quantity" type="number" value="@item.quantity" style="width:100px" min="1" max="@(((ItemSP)item).sanpham.SOLUONG)" data-id="@(((ItemSP)item).sanpham.MASP)" />
+                                        </td>
+                                        <td class="text-right sum" id="sum-@(((ItemSP)item).sanpham.MASP)">@(((ItemSP)item).sanpham.GIA * item.quantity)</td>
+                                        <td class="text-right remove" id="remove-@(((ItemSP)item).sanpham.MASP)"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                                    </tr>
+                                }
+                            }
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total</strong></td>
+                                <td class="text-right"><strong id="total">@(((List<Item>)Session["cart"]).Sum(c => c.gia * c.quantity))</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+            </div>
+            <div class="col mb-2">
+                <div class="row">
+                    <div class="col-sm-12  col-md-6">
+                        <button class="btn btn-block btn-light">Continue Shopping</button>
+                    </div>
+                    <div class="col-sm-12 col-md-6 text-right">
+                        <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    @section scripts{
+        <script>
+            $(".quantity").change(function () {
+                var id = $(".quantity").data("id");
+                var type = $("#type-" + id).val();
+                var quantity = $(".quantity").val();
+                $.get("/cart/changequantity", { id: id, type: type, sl: quantity }, function (data) {
+                    var res = data.split(" ");
+                    $("#sum-" + id).text(res[1]);
+                    $("#total").text(res[0]);
+                })
 
+            });
+        </script>
+    }
+}

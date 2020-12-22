@@ -12,17 +12,12 @@ namespace ShopEn.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CTHD
+    public partial class sysdiagram
     {
-        public int MACT { get; set; }
-        public Nullable<int> MAHD { get; set; }
-        public Nullable<int> MASP { get; set; }
-        public Nullable<int> MACB { get; set; }
-        public Nullable<decimal> GIA { get; set; }
-        public Nullable<int> SOLUONG { get; set; }
-    
-        public virtual COMBO COMBO { get; set; }
-        public virtual HOADON HOADON { get; set; }
-        public virtual SANPHAM SANPHAM { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

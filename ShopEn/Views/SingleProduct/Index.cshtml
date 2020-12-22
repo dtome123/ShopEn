@@ -1,4 +1,4 @@
-﻿
+﻿@using ShopEn.Code;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -56,6 +56,10 @@
                         <span class="color green"></span>
                         <span class="color blue"></span>
                     </h5>*@
+                    <div>
+                        <label for="quantity">Số lượng: </label>
+                        <input type="number" min="1" max="@ViewBag.MaxQuan" value="1" id="quantity" name="quantity"/>
+                    </div>
                     <div class="action">
                         <button class="add-to-cart btn btn-default" type="button">add to cart</button>
                     </div>
@@ -65,4 +69,16 @@
     </div>
 </div>
 <!--container.//-->
+@section scripts{
+     <script>
+         $(document).ready(function () {
+             $(".add-to-cart").click(function () {
+                 var quantity=$("#quantity").val();
+                 $.get("/Cart/Buy", {id:@ViewBag.Id,type:"@ViewBag.Type",sl:quantity}, function (data) {
+                     alert(data)
+                 })
+             })
+         })
+     </script>
+}
 

@@ -27,6 +27,7 @@
     <Property Name="MASP" Type="int" />
     <Property Name="MACB" Type="int" />
     <Property Name="GIA" Type="money" />
+    <Property Name="SOLUONG" Type="int" />
   </EntityType>
   <EntityType Name="HOADON">
     <Key>
@@ -79,6 +80,16 @@
     <Property Name="GIA" Type="money" />
     <Property Name="SOLUONG" Type="int" />
     <Property Name="IMAGE" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TRANGTHAI_HD">
     <Key>
@@ -211,6 +222,7 @@
     <EntitySet Name="LOAI_SP" EntityType="Self.LOAI_SP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SANPHAM" EntityType="Self.SANPHAM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANGTHAI_HD" EntityType="Self.TRANGTHAI_HD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VITRI" EntityType="Self.VITRI" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CB" Association="Self.FK_CB">

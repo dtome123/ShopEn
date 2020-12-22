@@ -9,6 +9,7 @@
     <EntitySet Name="LOAI_SP" EntityType="QLBHDTModel.LOAI_SP" />
     <EntitySet Name="NHANVIENs" EntityType="QLBHDTModel.NHANVIEN" />
     <EntitySet Name="SANPHAMs" EntityType="QLBHDTModel.SANPHAM" />
+    <EntitySet Name="sysdiagrams" EntityType="QLBHDTModel.sysdiagram" />
     <EntitySet Name="TRANGTHAI_HD" EntityType="QLBHDTModel.TRANGTHAI_HD" />
     <EntitySet Name="VITRIs" EntityType="QLBHDTModel.VITRI" />
     <AssociationSet Name="FK_CB" Association="QLBHDTModel.FK_CB">
@@ -79,6 +80,7 @@
     <Property Name="MASP" Type="Int32" />
     <Property Name="MACB" Type="Int32" />
     <Property Name="GIA" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="SOLUONG" Type="Int32" />
     <NavigationProperty Name="COMBO" Relationship="QLBHDTModel.FK_HD_CB" FromRole="CTHD" ToRole="COMBO" />
     <NavigationProperty Name="HOADON" Relationship="QLBHDTModel.FK_CTHD" FromRole="CTHD" ToRole="HOADON" />
     <NavigationProperty Name="SANPHAM" Relationship="QLBHDTModel.FK_HD_SP" FromRole="CTHD" ToRole="SANPHAM" />
@@ -143,6 +145,16 @@
     <NavigationProperty Name="CT_CB_SP" Relationship="QLBHDTModel.FK_SP" FromRole="SANPHAM" ToRole="CT_CB_SP" />
     <NavigationProperty Name="CTHDs" Relationship="QLBHDTModel.FK_HD_SP" FromRole="SANPHAM" ToRole="CTHD" />
     <NavigationProperty Name="LOAI_SP" Relationship="QLBHDTModel.FK_LOAI" FromRole="SANPHAM" ToRole="LOAI_SP" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TRANGTHAI_HD">
     <Key>
